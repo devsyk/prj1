@@ -25,6 +25,10 @@ public class MemberService {
 	public MemberDto getById(String id) {
 		return mapper.selectById(id);
 	}
+	
+	public MemberDto getByNickName(String nickName) {
+		return mapper.selectByNickName(nickName);
+	}
 
 	public MemberDto getByEmail(String email) {
 		return mapper.selectByEmail(email);

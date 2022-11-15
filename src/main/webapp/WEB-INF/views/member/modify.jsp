@@ -32,6 +32,16 @@
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
+							닉네임 
+						</label>
+						<div class="input-group">
+							<input id="nickNameInput1" class="form-control" type="text" value="${member.nickName }" name="nickName" data-old-value="${member.nickName }">
+							<button disabled id="nickNameButton1" type="button" class="btn btn-outline-secondary">중복확인</button>
+						</div>
+						<div id="nickNameText1" class="form-text"></div>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
 							암호 
 						</label>
 						<input id="passwordInput1" class="form-control" type="text" value="${member.password }" name="password">
@@ -119,16 +129,57 @@
 	<%-- 회원 정보 검증 --%>
 	let availableEmail = true;
 	let availablePassword = true;
+	let availableNickName = true;
 	
 	// 수정 버튼 활성화
 	function enableModifyButton() {
 		const button = document.querySelector("#modifyModalButton1");
-		if (availablePassword && availableEmail) {
+		if (availablePassword && availableEmail && availableNickName) {
 			button.removeAttribute("disabled")
 		} else {
 			button.setAttribute("disabled", "");
 		}
 	}	
+	
+	<%-- 닉네임 중복 확인 --%>
+	const nickNameInput1 = document.querySelector("#nickNameInput1");
+	const nickNameExistButton1 = document.querySelector("#nickNameExistButton1");
+	const nickNameText1 = document.querySelector("#nickNameText1");
+	
+	// 닉네임 input의 값이 변경되었을 때
+	nickNameInput1.addEventListener("keyup", function() {
+		availableNickName = false;
+		const oldValue = nickNameInput1.dataset.oldValue;
+		const newValue = nickNameInput1.value;
+		
+		if (oldValue == newValue) {
+			nickNameText1.innerText = "";
+			nickNameExistButton1.setAttribute("disabled", "disabled");
+			availableNickName = true;
+		} else {
+			nickNameText1.innerText = "닉네임 중복확인을 해주세요.";
+			nickNameExistButton1.removeAttribute("disabled");
+		}
+		
+		enableModifyButton();
+	});
+	
+	// 닉네임 중복 확인 버튼 클릭
+	nickNameExistButton1.addEventListener("click", function() {
+		availableNickName = false;
+		const nickName = nickNameInput1.value;
+		
+		fetch(`\${ctx}/member/existNickName/\${nickName}`)
+			.then(res => res.json())
+			.then(data => {
+				nickNameText1.innerText = data.message;
+				
+				if (data.status == "not exist") {
+					availableNickName = true;
+					enableModifyButton();
+				}
+			});
+	});
 	
 	<%-- 이메일 중복 확인 --%>
 	const emailInput1 = document.querySelector("#emailInput1");

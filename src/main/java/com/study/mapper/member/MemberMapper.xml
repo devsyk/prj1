@@ -13,6 +13,7 @@
 	<update id="update">
 		UPDATE Member
 		SET
+			nickName = #{nickName},
 			password = #{password},
 			email = #{email}
 		WHERE id = #{id}
@@ -21,6 +22,7 @@
 	<select id="selectById" resultType="com.study.domain.member.MemberDto">
 		SELECT 
 			id,
+			nickName,
 			password,
 			email,
 			inserted
@@ -28,9 +30,21 @@
 		WHERE id = #{id}
 	</select>
 
+	<select id="selectByNickName" resultType="com.study.domain.member.MemberDto">
+		SELECT 
+			id,
+			nickName,
+			password,
+			email,
+			inserted
+		FROM Member
+		WHERE nickName = #{nickName}
+	</select>
+
 	<select id="selectByEmail" resultType="com.study.domain.member.MemberDto">
 		SELECT 
 			id,
+			nickName,
 			password,
 			email,
 			inserted
@@ -41,6 +55,7 @@
 	<select id="selectAll" resultType="com.study.domain.member.MemberDto">
 		SELECT 
 			id,
+			nickName,
 			'숨김' password,
 			email,
 			inserted
@@ -49,7 +64,7 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO Member (id, password, email)
-		VALUES (#{id}, #{password}, #{email})
+		INSERT INTO Member (id, nickName, password, email)
+		VALUES (#{id}, #{nickName}, #{password}, #{email})
 	</insert>
 </mapper>

@@ -21,6 +21,7 @@
 					<thead>
 						<tr>
 							<th>아이디</th>
+							<th>닉네임</th>
 							<th>패스워드</th>
 							<th>이메일</th>
 							<th>가입일시</th>
@@ -37,6 +38,7 @@
 										${member.id }
 									</a>
 								</td>
+								<td>${member.nickName }</td>
 								<td>${member.password }</td>
 								<td>${member.email }</td>
 								<td>${member.inserted }</td>

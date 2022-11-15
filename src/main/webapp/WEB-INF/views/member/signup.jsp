@@ -32,6 +32,16 @@
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
+							닉네임
+						</label>
+						<div class="input-group">
+							<input id="nickNameInput1" class="form-control" type="text" name="nickName">
+							<button id="nickNameExistButton1" class="btn btn-outline-secondary" type="button">중복확인</button>
+						</div>
+						<div id="nickNameText1" class="form-text">닉네임 중복확인을 해주세요.</div>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
 							암호
 						</label>
 						<input id="passwordInput1" class="form-control" type="text" name="password">
@@ -61,11 +71,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
 	const ctx = "${pageContext.request.contextPath}";
-	
+
 	<%-- 가입 정보 검증 --%>
 	let availableId = false; // 사용가능한 아이디
 	let availableEmail = false; // 사용가능한 이메일
 	let availablePassword = false; // 사용가능한 패스워드
+	let availableNickName = false; // 사용가능한 닉네임
 	
 	// 가입 버튼 활성화
 	function enableSubmitButton() {
@@ -87,6 +98,29 @@
 	document.querySelector("#emailInput1").addEventListener("keyup", function() {
 		availableEmail = false;
 		enableSubmitButton();
+	});
+	
+	// 닉네임 input 변경시 submit 버튼 비활성화
+	document.querySelector("#nickNameInput1").addEventListener("keyup", function() {
+		availableNickName = false;
+		enableSubmitButton();
+	});
+	
+	<%-- 닉네임 중복 확인 --%>
+	document.querySelector("#nickNameExistButton1").addEventListener("click", function() {
+		availableNickName = false;
+		const nickName = document.querySelector("#nickNameInput1").value;
+		
+		fetch(ctx + "/member/existNickName/" + nickName)
+			.then(res => res.json())
+			.then(data => {
+				document.querySelector("#nickNameText1").innerText = data.message;
+				
+				if (data.status == "not exist") {
+					availableNickName = true;
+					enableSubmitButton();
+				}
+			});
 	});
 
 	<%-- 이메일 중복 확인 --%>
