@@ -14,7 +14,9 @@
 		UPDATE Member
 		SET
 			nickName = #{nickName},
+			<if test="password != null">
 			password = #{password},
+			</if>
 			email = #{email}
 		WHERE id = #{id}
 	</update>

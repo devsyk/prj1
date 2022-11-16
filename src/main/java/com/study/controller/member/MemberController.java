@@ -118,8 +118,10 @@ public class MemberController {
 		MemberDto oldmember = service.getById(member.getId());
 		rttr.addAttribute("id", member.getId());
 		
+		boolean passwordMatch = passwordEncoder.matches(oldPassword, oldmember.getPassword());
+		
 		// 기존 암호가 맞으면 회원정보 수정
-		if (oldmember.getPassword().equals(oldPassword)) {
+		if (passwordMatch) {
 			int cnt = service.modify(member);
 			
 			if (cnt == 1) {

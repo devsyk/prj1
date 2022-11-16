@@ -45,7 +45,13 @@ public class MemberService {
 		int cnt = 0;
 		
 		try {
+			if (member.getPassword() != null) {
+				String encodedPw = passwordEncoder.encode(member.getPassword());
+				member.setPassword(encodedPw);
+			}
+			
 			return mapper.update(member);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

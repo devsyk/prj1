@@ -40,18 +40,19 @@
 						</div>
 						<div id="nickNameText1" class="form-text"></div>
 					</div>
+					<input type="checkbox" name="newPassword" value="true" id="newPasswordCheckbox1"> 암호 변경
 					<div class="mb-3">
 						<label for="" class="form-label">
-							암호 
+							새 암호 
 						</label>
-						<input id="passwordInput1" class="form-control" type="text" value="${member.password }" name="password">
+						<input disabled id="passwordInput1" class="form-control" type="text" value="" name="password">
 						<div id="passwordText1" class="form-text"></div>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
-							암호 확인
+							새 암호 확인
 						</label>
-						<input id="passwordInput2" class="form-control" type="text">
+						<input disabled id="passwordInput2" class="form-control" type="text">
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
@@ -139,7 +140,20 @@
 		} else {
 			button.setAttribute("disabled", "");
 		}
-	}	
+	}
+	
+	<%-- 새 패스워드 입력 체크박스 --%>
+	document.querySelector("#newPasswordCheckbox1").addEventListener("change", function() {
+		const pwInput1 = document.querySelector("#passwordInput1");
+		const pwInput2 = document.querySelector("#passwordInput2");
+		if (this.checked) {
+			pwInput1.removeAttribute("disabled");
+			pwInput2.removeAttribute("disabled");
+		} else {
+			pwInput1.setAttribute("disabled", "");
+			pwInput2.setAttribute("disabled", "");
+		}
+	});
 	
 	<%-- 닉네임 중복 확인 --%>
 	const nickNameInput1 = document.querySelector("#nickNameInput1");
