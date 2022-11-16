@@ -3,6 +3,7 @@
 <%@ page import="java.net.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,9 +24,11 @@
 					<c:url value="/board/modify" var="modifyLink">
 						<c:param name="id" value="${board.id }"></c:param>
 					</c:url>
-					<a class="btn btn-warning" href="${modifyLink }"> 
-						<i class="fa-solid fa-pen-to-square"></i>
-					</a>
+					<sec:authorize access="isAuthenticated()">
+						<a class="btn btn-warning" href="${modifyLink }"> 
+							<i class="fa-solid fa-pen-to-square"></i>
+						</a>
+					</sec:authorize>
 				</h1>
 
 				<div class="mb-3">
@@ -80,13 +83,17 @@
 		<div class="row">
 			<div class="col">
 				<%-- 댓글 작성 --%>
-				<input type="hidden" id="boardId" value="${board.id }"> 
+				<input type="hidden" id="boardId" value="${board.id }"> 				
 				<div class="input-group">
-					<input type="text" class="form-control" id="replyInput1">
-					<button class="btn btn-outline-secondary" id="replySendButton1">
-						<i class="fa-solid fa-reply"></i>
-					</button>
-				</div>				
+					<sec:authorize access="isAuthenticated()">
+						<input type="text" class="form-control" id="replyInput1">
+						<button class="btn btn-outline-secondary" id="replySendButton1"><i class="fa-solid fa-reply"></i></button>
+					</sec:authorize>
+					<sec:authorize access="not isAuthenticated()">	
+						<input type="text" class="form-control" id="replyInput1" value="댓글을 작성하시려면 로그인하세요." readonly>
+						<button disabled class="btn btn-outline-secondary" id="replySendButton1"><i class="fa-solid fa-reply"></i></button>
+					</sec:authorize>	
+				</div>						
 			</div>
 		</div>
 		<div class="row mt-3">
