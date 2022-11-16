@@ -24,6 +24,11 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+	@GetMapping("login")
+	public void login() {
+		
+	}
+	
 	@GetMapping("existId/{id}")
 	@ResponseBody
 	public Map<String, Object> existId(@PathVariable String id) {
