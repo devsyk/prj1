@@ -24,11 +24,14 @@
 					<c:url value="/board/modify" var="modifyLink">
 						<c:param name="id" value="${board.id }"></c:param>
 					</c:url>
-					<sec:authorize access="isAuthenticated()">
+					
+					<sec:authentication property="name" var="username" />
+					<%-- 작성자와 authentication.name 같으면 보여줌 --%>
+					<c:if test="${board.writer == username}">
 						<a class="btn btn-warning" href="${modifyLink }"> 
 							<i class="fa-solid fa-pen-to-square"></i>
 						</a>
-					</sec:authorize>
+					</c:if>	
 				</h1>
 
 				<div class="mb-3">

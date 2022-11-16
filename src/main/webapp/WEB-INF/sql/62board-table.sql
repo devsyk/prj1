@@ -129,3 +129,12 @@ SET SQL_SAFE_UPDATES = 1;
 
 DELETE FROM Member
 WHERE id <> 'abcd';
+
+-- 게시물 작성자를 존재하는 Member.id로 변경
+UPDATE Board
+SET writer = 'aaaa'
+WHERE id > 0;
+
+-- Board.writer 가 Member.id 참조하도록 변경
+ALTER TABLE Board
+ADD FOREIGN KEY (writer) REFERENCES Member(id);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
@@ -33,8 +34,9 @@
 						<input multiple type="file" accept="image/*" class="form-control" name="files">
 					</div>
 					<div class="mb-3">
-						<label for="" class="form-label">작성자</label>
-						<input id="writerInput" required="required" type="text" class="form-control" name="writer">
+						<label for="" class="form-label">작성자</label> 
+						<input value="<sec:authentication property="name"/>"
+							type="text" class="form-control" name="writer" readonly>
 					</div>
 					<input id="submitButton1" class="btn btn-primary" type="submit" value="등록">
 				</form>
@@ -51,19 +53,16 @@
 		
 		let titleInput = document.querySelector("#titleInput");
 		let contentInput = document.querySelector("#contentInput");	
-		let writerInput = document.querySelector("#writerInput");
 				
 		// 필수 입력값이 모두 있는 경우에만 submit
 		if (titleInput.value.trim() != "" 
-				&& contentInput.value.trim() != "" 
-				&& writerInput.value.trim() != "") {
+				&& contentInput.value.trim() != "") {
 			document.querySelector("#registerForm1").submit();
 		} 
 		// 필수 입력값이 없는 경우, 해당 입력창으로 커서 이동
 		else {
 			if (titleInput.value.trim() == "" )  titleInput.focus();
 			else if (contentInput.value.trim() == "" )  contentInput.focus();
-			else if (writerInput.value.trim() == "" )  writerInput.focus();
 		}
 	});
 	

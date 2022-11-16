@@ -31,7 +31,7 @@
 
 				<form id="modifyForm" action="" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="id" value="${board.id }">
-					<!-- .mb-3*4>label.form-label+input.form-control -->
+
 					<div class="mb-3">
 						<label for="" class="form-label">제목</label>
 						<input id="titleInput" required="required" type="text" name="title" class="form-control" value="${board.title }">
@@ -68,7 +68,7 @@
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">작성자</label>
-						<input id="writerInput" required="required" type="text" name="writer" class="form-control" value="${board.writer }">
+						<input id="writerInput" required="required" type="text" class="form-control" value="${board.writer }" readonly>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">작성일시</label>
