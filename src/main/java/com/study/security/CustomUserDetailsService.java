@@ -10,18 +10,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.study.domain.member.MemberDto;
+import com.study.mapper.member.MemberMapper;
+
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private MemberMapper mapper;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		String encodedPw = passwordEncoder.encode(username + "pw"); // 비밀번호 암호화
+		MemberDto member = mapper.selectById(username);
 		
-		User user = new User(username, encodedPw, List.of()); // User(username, password, authentic)
+		if (member == null) {
+			return null;
+		} 
+				
+		User user = new User(member.getId(), member.getPassword(), List.of()); // User(username, password, authentic)
 		
 		return user;
 	}
