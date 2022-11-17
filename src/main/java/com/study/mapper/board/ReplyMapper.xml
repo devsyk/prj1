@@ -57,4 +57,9 @@
 		WHERE boardId = #{id}
 	</delete>
 	
+	<delete id="deleteByMemeberId">
+		DELETE FROM Reply
+		WHERE writer = #{id}
+	</delete>
+	
 </mapper>

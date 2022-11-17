@@ -133,5 +133,21 @@
 		FROM BoardLike
 		WHERE boardId = #{boardId}
 	</select>
+
+	<delete id="deleteLikeByBoardId">
+		DELETE FROM BoardLike
+		WHERE boardId = #{id}
+	</delete>
+
+	<delete id="deleteLikeByMemberId">
+		DELETE FROM BoardLike
+		WHERE memberId = #{id}
+	</delete>
+
+	<select id="listByMemberId" resultType="com.study.domain.board.BoardDto">
+		SELECT id
+		FROM Board
+		WHERE writer = #{id}
+	</select>
 	
 </mapper>

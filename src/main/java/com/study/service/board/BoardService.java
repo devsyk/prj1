@@ -38,20 +38,20 @@ public class BoardService {
 	private String bucketName;
 	
 	public int register(BoardDto board, MultipartFile[] files) {
-		int boardId = board.getId();
+		// DB에 게시물 정보 저장
+		int cnt = boardMapper.insert(board);
 		
 		for (MultipartFile file : files) {
 			if (file != null && file.getSize() > 0) {
 				// DB에 파일 정보 저장
-				boardMapper.insertFile(boardId, file.getOriginalFilename());
+				boardMapper.insertFile(board.getId(), file.getOriginalFilename());
 				
 				// S3에 실제 파일 저장
-				uploadFile(boardId, file);
+				uploadFile(board.getId(), file);
 			}
 		}
 		
-		// DB에 게시물 정보 저장
-		return boardMapper.insert(board);
+		return cnt;
 	}
 
 	public List<BoardDto> listBoard(int page, String type, String keyword, PageInfo pageInfo) {
@@ -140,8 +140,8 @@ public class BoardService {
 			}
 		}	
 		
-		// 게시물 댓글 삭제
-		replyMapper.deleteByBoardId(id);
+		// 좋아요 삭제
+		boardMapper.deleteLikeByBoardId(id);
 				
 		// 게시물 삭제
 		return boardMapper.delete(id);
