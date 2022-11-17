@@ -48,12 +48,19 @@ public class ReplyController {
 	
 	@GetMapping("list/{boardId}")
 	@ResponseBody
-	public List<ReplyDto> list(@PathVariable int boardId) {
-		return service.listReplyByBoardId(boardId);
+	public List<ReplyDto> list(@PathVariable int boardId, Authentication authentication) {
+		
+		String username = "";
+		if (authentication != null) {
+			username = authentication.getName();
+		}
+		
+		return service.listReplyByBoardId(boardId, username);
 	}
 	
 	@DeleteMapping("remove/{id}")
 	@ResponseBody
+	@PreAuthorize("@replySecurity.checkWriter(authentication.name, #id)")
 	public Map<String, Object> remove(@PathVariable int id) {
 		Map<String, Object> map = new HashMap<>();
 
@@ -75,6 +82,7 @@ public class ReplyController {
 	
 	@PutMapping("modify")
 	@ResponseBody
+	@PreAuthorize("@replySecurity.checkWriter(authentication.name, #reply.id)")
 	public Map<String, Object> modify(@RequestBody ReplyDto reply) {
 		Map<String, Object> map = new HashMap<>();
 		

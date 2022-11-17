@@ -50,7 +50,7 @@ public class CustomConfig {
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/member/login");
+		http.formLogin().loginPage("/member/login").defaultSuccessUrl("/board/list", true);
 		http.logout().logoutUrl("/member/logout").logoutSuccessUrl("/board/list"); // 로그아웃시, list페이지로 이동
 		http.csrf().disable(); // disable csrf 
 		

@@ -201,6 +201,16 @@
 				const modifyReplyButtonId = `modifyReplyButton\${item.id}`;
 				const removeReplyButtonId = `removeReplyButton\${item.id}`;
 				// console.log(item.id);
+				const editButton = `
+					<div>
+						<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modifyReplyFormModal" data-reply-id="\${item.id}" id="\${modifyReplyButtonId}">
+							<i class="fa-solid fa-pen"></i>
+						</button>
+						<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#removeReplyConfirmModal" data-reply-id="\${item.id}" id="\${removeReplyButtonId}">
+							<i class="fa-solid fa-x"></i>
+						</button>
+					</div>
+				`;
 				const replyDiv = `
 					<div class="list-group-item d-flex">
 						<div class="me-auto">
@@ -211,31 +221,26 @@
 								\${item.ago}
 							</small>
 						</div>
-						<div>
-							<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modifyReplyFormModal" data-reply-id="\${item.id}" id="\${modifyReplyButtonId}">
-								<i class="fa-solid fa-pen"></i>
-							</button>
-							<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#removeReplyConfirmModal" data-reply-id="\${item.id}" id="\${removeReplyButtonId}">
-								<i class="fa-solid fa-x"></i>
-							</button>
-						</div>
+						\${item.editable ? editButton : ''}
 					</div>`;
 					
 				replyListContainer.insertAdjacentHTML("beforeend", replyDiv);
 				
-				// 수정 폼 모달에 댓글 내용 넣기
-				document.querySelector("#" + modifyReplyButtonId)
-					.addEventListener("click", function() {
-						document.querySelector("#modifyFormModalSubmitButton").setAttribute("data-reply-id", this.dataset.replyId);
-						readReplyAndSetModalForm(this.dataset.replyId);
+				if (item.editable) {
+					// 수정 폼 모달에 댓글 내용 넣기
+					document.querySelector("#" + modifyReplyButtonId)
+						.addEventListener("click", function() {
+							document.querySelector("#modifyFormModalSubmitButton").setAttribute("data-reply-id", this.dataset.replyId);
+							readReplyAndSetModalForm(this.dataset.replyId);
+						});
+					
+					// 삭제확인 버튼에 replyId 옮기기
+					document.querySelector("#" + removeReplyButtonId).addEventListener("click", function() {
+						// console.log(this.dataset.replyId + "번 댓글 삭제할 예정, 모달 띄움")
+						document.querySelector("#removeConfirmModalSubmitButton").setAttribute("data-reply-id", this.dataset.replyId);
+						// removeReply(this.dataset.replyId);
 					});
-				
-				// 삭제확인 버튼에 replyId 옮기기
-				document.querySelector("#" + removeReplyButtonId).addEventListener("click", function() {
-					// console.log(this.dataset.replyId + "번 댓글 삭제할 예정, 모달 띄움")
-					document.querySelector("#removeConfirmModalSubmitButton").setAttribute("data-reply-id", this.dataset.replyId);
-					// removeReply(this.dataset.replyId);
-				});
+				}
 			}
 		})
 	}

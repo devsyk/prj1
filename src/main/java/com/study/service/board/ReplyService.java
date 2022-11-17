@@ -19,8 +19,8 @@ public class ReplyService {
 		
 	}
 
-	public List<ReplyDto> listReplyByBoardId(int boardId) {
-		return mapper.selectReplyByBoardId(boardId);
+	public List<ReplyDto> listReplyByBoardId(int boardId, String username) {
+		return mapper.selectReplyByBoardId(boardId, username);
 	}
 
 	public int removeById(int id) {
