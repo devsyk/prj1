@@ -18,6 +18,8 @@ public class BoardDto {
 	private int countFile;
 	private int countLike;
 	
+	private boolean liked;
+	
 	private List<String> fileName;
 	
 	public String getAgo() {

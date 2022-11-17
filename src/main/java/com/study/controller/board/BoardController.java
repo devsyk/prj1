@@ -105,10 +105,15 @@ public class BoardController {
 	*/
 	
 	@GetMapping("get")
-	public void get(int id, Model model) { // @RequestParam(name="id") 생략 가능
+	public void get(int id, Model model, Authentication authentication) { // @RequestParam(name="id") 생략 가능
+		String username = null;
+		if (authentication != null) {
+			username = authentication.getName();
+		}
+		
 		// request param 수집 가공
 		// business logic - 게시물 db에서 가져오기
-		BoardDto board = service.get(id);
+		BoardDto board = service.get(id, username);
 		System.out.println(board);
 		// add attribute
 		model.addAttribute("board", board);

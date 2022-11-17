@@ -88,8 +88,8 @@ public class BoardService {
 	}
 
 
-	public BoardDto get(int id) {
-		return boardMapper.select(id);
+	public BoardDto get(int id, String username) {
+		return boardMapper.select(id, username);
 	}
 
 	public int update(BoardDto board, MultipartFile[] addFiles, List<String> removeFiles) {
@@ -198,5 +198,9 @@ public class BoardService {
 		map.put("count", countAll);
 		
 		return map;
+	}
+
+	public BoardDto get(int id) {
+		return get(id, null);
 	}	
 }
