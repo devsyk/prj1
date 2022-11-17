@@ -147,3 +147,14 @@ ADD COLUMN writer VARCHAR(255) NOT NULL DEFAULT 'aaaa' REFERENCES Member(id) AFT
 ALTER TABLE Reply
 MODIFY COLUMN writer VARCHAR(255) NOT NULL;
 DESC Reply;
+
+SELECT * FROM Reply ORDER BY 1 DESC;
+
+-- BoardLike 테이블 생성 (Like 키워드 X)
+CREATE TABLE BoardLike (
+	boardId INT,
+    memberId VARCHAR(255),
+    PRIMARY KEY (boardId, memberId),
+    FOREIGN KEY (boardId) REFERENCES Board(id),
+    FOREIGN KEY (memberId) REFERENCES Member(id)
+);

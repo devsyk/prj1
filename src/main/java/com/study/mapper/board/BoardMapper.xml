@@ -48,9 +48,11 @@
 			b.writer,
 			b.inserted,
 			COUNT(DISTINCT r.id) countReply,
-        	COUNT(DISTINCT f.id) countFile
+        	COUNT(DISTINCT f.id) countFile,
+        	COUNT(DISTINCT l.memberId) countLike
 		FROM Board b LEFT JOIN Reply r ON b.id = r.boardId
 					 LEFT JOIN File f ON b.id = f.boardId
+					 LEFT JOIN BoardLike l ON b.id = l.boardId
 		WHERE
 		<trim prefixOverrides="OR">
 			<if test="type == 'all' or type == 'title'">
