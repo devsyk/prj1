@@ -138,3 +138,12 @@ WHERE id > 0;
 -- Board.writer 가 Member.id 참조하도록 변경
 ALTER TABLE Board
 ADD FOREIGN KEY (writer) REFERENCES Member(id);
+
+-- 댓글 테이블에 작성자 추가
+-- wirter 값이 없으면 참조키 설정 되지 않기 때문에 초기 세팅 시, 'aaaa' 기본값 설정
+ALTER TABLE Reply
+ADD COLUMN writer VARCHAR(255) NOT NULL DEFAULT 'aaaa' REFERENCES Member(id) AFTER content;
+-- 기본값 설정 삭제
+ALTER TABLE Reply
+MODIFY COLUMN writer VARCHAR(255) NOT NULL;
+DESC Reply;
