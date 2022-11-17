@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.study.mapper.board.BoardMapper">
-	
+
 	<delete id="deleteFileByBoardIdAndFileName">
 		DELETE FROM File
 		WHERE boardId = #{id} AND name = #{fileName}
@@ -77,9 +77,11 @@
 			b.content, 
 			b.writer, 
 			b.inserted, 
+			COUNT(l.memberId) countLike,
 			f.id fileId,
 			f.name fileName		
 		FROM Board b LEFT JOIN File f ON b.id = f.boardId
+					 LEFT JOIN BoardLike l ON b.id = l.boardId
 		WHERE b.id = #{id}
 	</select>
 	
@@ -89,6 +91,7 @@
 		<result column="content" property="content" />
 		<result column="writer" property="writer" />
 		<result column="inserted" property="inserted" />
+		<result column="countLike" property="countLike" />
 		<collection property="fileName" ofType="string">
 			<result column="fileName" property="fileName" />
 		</collection>
@@ -107,5 +110,27 @@
 		DELETE FROM Board
 		WHERE id = #{id}
 	</delete>
+	
+	<select id="getLikeByBoardIdAndMemberId" resultType="int">
+		SELECT COUNT(*)
+		FROM BoardLike
+		WHERE boardId = #{boardId} AND memberId = #{memberId}
+	</select>
+	
+	<delete id="deleteLike">
+		DELETE FROM BoardLike
+		WHERE boardId = #{boardId} AND memberId = #{memberId}
+	</delete>
+	
+	<insert id="insertLike">
+		INSERT INTO BoardLike (BoardId, memberId)
+		VALUES (#{boardId}, #{memberId})
+	</insert>
+	
+	<select id="countLikeByBoardId" resultType="int">
+		SELECT COUNT(*)
+		FROM BoardLike
+		WHERE boardId = #{boardId}
+	</select>
 	
 </mapper>

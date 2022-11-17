@@ -18,21 +18,33 @@
 	<div class="container-md">
 		<div class="row">
 			<div class="col">
-
-				<h1>
-					${board.id }번 게시물
-					<c:url value="/board/modify" var="modifyLink">
-						<c:param name="id" value="${board.id }"></c:param>
-					</c:url>
+				
+				<div class="d-flex">
+					<h1 class="me-auto">
+						${board.id }번 게시물
+						<c:url value="/board/modify" var="modifyLink">
+							<c:param name="id" value="${board.id }"></c:param>
+						</c:url>
+						
+						<sec:authentication property="name" var="username" />
+						
+						<%-- 작성자와 authentication.name 같으면 보여줌 --%>
+						<c:if test="${board.writer == username}">
+							<a class="btn btn-warning" href="${modifyLink }"> 
+								<i class="fa-solid fa-pen-to-square"></i>
+							</a>
+						</c:if>	
+					</h1>
 					
-					<sec:authentication property="name" var="username" />
-					<%-- 작성자와 authentication.name 같으면 보여줌 --%>
-					<c:if test="${board.writer == username}">
-						<a class="btn btn-warning" href="${modifyLink }"> 
-							<i class="fa-solid fa-pen-to-square"></i>
-						</a>
-					</c:if>	
-				</h1>
+					<h1>
+						<span id="likeButton">
+								좋아요
+						</span>
+						<span id="likeCount">
+							${board.countLike }
+						</span>
+					</h1>
+				</div>
 
 				<div class="mb-3">
 					<label class="form-label">제목</label> 
@@ -152,6 +164,30 @@
 <script>
 	const ctx = "${pageContext.request.contextPath}";
 	
+	// 좋아요 버튼 클릭
+	document.querySelector("#likeButton").addEventListener("click", function() {
+		const boardId = document.querySelector("#boardId").value;
+		
+		fetch(`\${ctx}/board/like`, {
+			method : "put",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify({boardId})
+		})
+		.then(res => res.json())
+		.then(data => {
+			
+			if (data.current == 'liked') {
+				document.querySelector("#likeButton").innerHTML = `<i class="fa-solid fa-thumbs-up"></i>`;
+			} else {
+				document.querySelector("#likeButton").innerHTML = `<i class="fa-regular fa-thumbs-up"></i>`;
+			}
+			
+			document.querySelector("#likeCount").innerText = data.count;
+		});
+	});	
+	
 	listReply();
 	
 	// 댓글 crud 메시지 토스트
@@ -191,6 +227,7 @@
 	
 	function listReply() {
 		const boardId = document.querySelector("#boardId").value;
+		
 		fetch(`\${ctx}/reply/list/\${boardId}`)
 		.then(res => res.json())
 		.then(list => {

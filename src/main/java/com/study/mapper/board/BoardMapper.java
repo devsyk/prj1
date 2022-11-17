@@ -23,4 +23,12 @@ public interface BoardMapper {
 	int deleteFileByBoardId(int id);
 	
 	int deleteFileByBoardIdAndFileName(int id, String fileName);
+
+	int getLikeByBoardIdAndMemberId(String boardId, String memberId);
+
+	int deleteLike(String boardId, String memberId);
+
+	int insertLike(String boardId, String memberId);
+
+	int countLikeByBoardId(String boardId);
 }
