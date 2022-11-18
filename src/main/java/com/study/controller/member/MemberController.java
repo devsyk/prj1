@@ -111,11 +111,13 @@ public class MemberController {
 	}
 	
 	@GetMapping({"info", "modify"})
+	@PreAuthorize("hasAuthority('admin') or (authentication.name == #id)")
 	public void info(String id, Model model) {
 		model.addAttribute("member", service.getById(id));
 	}
 	
 	@PostMapping("modify")
+	@PreAuthorize("authentication.name == #member.id")
 	public String modify(MemberDto member, String oldPassword, RedirectAttributes rttr) {
 		MemberDto oldmember = service.getById(member.getId());
 		rttr.addAttribute("id", member.getId());

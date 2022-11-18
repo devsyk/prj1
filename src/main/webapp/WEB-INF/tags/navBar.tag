@@ -26,6 +26,11 @@
 <c:url value="/member/login" var="loginLink" />
 <c:url value="/member/logout" var="logoutLink" />
 
+<sec:authentication property="name" var="username" />
+<c:url value="/member/info" var="memberInfoLink" >
+	<c:param name="id" value="${username }" />
+</c:url>
+
 <nav class="navbar navbar-expand-md bg-light mb-3">
 	<div class="container-md">
 		<a class="navbar-brand" href="${listLink }">게시판</a>
@@ -60,6 +65,10 @@
 		        </c:if>
 		        
 		        <c:if test="${loggedIn }">
+			        <li class="nav-item">
+			        	<a class="nav-link" href="${memberInfoLink }">회원정보</a>
+			        </li>
+			        
 			        <li class="nav-item">
 			        	<a class="nav-link" href="${logoutLink }">로그아웃</a>
 			        </li>
