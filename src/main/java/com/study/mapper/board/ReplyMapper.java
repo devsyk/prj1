@@ -18,6 +18,6 @@ public interface ReplyMapper {
 
 	int deleteByBoardId(int id);
 	
-	int deleteByMemeberId(String id);
+	int deleteByMemberId(String id);
 
 }

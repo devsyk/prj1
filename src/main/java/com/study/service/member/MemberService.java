@@ -80,7 +80,7 @@ public class MemberService {
 		boardMapper.deleteLikeByMemberId(id);
 		
 		// 해당 회원의 댓글 삭제
-		replyMapper.deleteByMemeberId(id);
+		replyMapper.deleteByMemberId(id);
 		
 		// 해당 회원의 게시글 삭제
 		List<BoardDto> list = boardMapper.listByMemberId(id);
