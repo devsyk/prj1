@@ -45,14 +45,14 @@
 						<label for="" class="form-label">
 							새 암호 
 						</label>
-						<input disabled id="passwordInput1" class="form-control" type="text" value="" name="password">
+						<input disabled id="passwordInput1" class="form-control" type="password" value="" name="password">
 						<div id="passwordText1" class="form-text"></div>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
 							새 암호 확인
 						</label>
-						<input disabled id="passwordInput2" class="form-control" type="text">
+						<input disabled id="passwordInput2" class="form-control" type="password">
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
@@ -94,7 +94,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<input id="oldPasswordInput1" type="text" class="form-control">
+					<input id="oldPasswordInput1" type="password" class="form-control">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -113,7 +113,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<input id="oldPasswordInput2" type="text" class="form-control">
+					<input id="oldPasswordInput2" type="password" class="form-control">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
