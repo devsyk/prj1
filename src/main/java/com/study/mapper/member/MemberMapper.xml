@@ -21,16 +21,28 @@
 		WHERE id = #{id}
 	</update>
 	
-	<select id="selectById" resultType="com.study.domain.member.MemberDto">
+	<select id="selectById" resultMap="memberMap">
 		SELECT 
 			id,
 			nickName,
 			password,
 			email,
-			inserted
-		FROM Member
+			inserted,
+			a.auth
+		FROM Member m LEFT JOIN Authority a ON m.id = a.memberId
 		WHERE id = #{id}
 	</select>
+	
+	<resultMap type="com.study.domain.member.MemberDto" id="memberMap">
+		<id column="id" property="id" />
+		<result column="nickName" property="nickName"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="inserted" property="inserted"/>
+		<collection property="auth" ofType="string">
+			<result column="auth" property="auth"/>
+		</collection>
+	</resultMap>
 
 	<select id="selectByNickName" resultType="com.study.domain.member.MemberDto">
 		SELECT 

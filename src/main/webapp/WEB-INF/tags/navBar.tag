@@ -37,14 +37,19 @@
 				<li class="nav-item">
 					<a class="nav-link ${active eq 'list' ? 'active' : ''}" href="${listLink }">목록</a>
 				</li>
+				
 				<c:if test="${loggedIn }">
 					<li class="nav-item">
 						<a class="nav-link ${active eq 'register' ? 'active' : ''}" href="${registerLink }">작성</a>
 					</li>
+		        </c:if>
+		        
+				<sec:authorize access="hasAuthority('admin')">
 					<li class="nav-item">
 			          	<a class="nav-link ${active eq 'memberList' ? 'active' : '' }" href="${memberListLink }">회원목록</a>
 			        </li>
-		        </c:if>
+		        </sec:authorize>
+		        
 		        <c:if test="${not loggedIn }">
 					<li class="nav-item">
 			        	<a class="nav-link ${active eq 'signup' ? 'active' : '' }" href="${signupLink }">회원가입</a>
@@ -53,6 +58,7 @@
 			        	<a class="nav-link" href="${loginLink }">로그인</a>
 			        </li>
 		        </c:if>
+		        
 		        <c:if test="${loggedIn }">
 			        <li class="nav-item">
 			        	<a class="nav-link" href="${logoutLink }">로그아웃</a>
