@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.study.domain.board.ReplyDto;
 import com.study.service.board.ReplyService;
 
-@Controller
+//@Controller
+//@ResponseBody
+//@RestController : @Controller에 @ResponseBody가 추가된 것 - Json 형태로 객체 데이터를 반환
+@RestController
 @RequestMapping("reply")
 public class ReplyController {
 	
@@ -28,7 +31,6 @@ public class ReplyController {
 	private ReplyService service;
 	
 	@PostMapping("add")
-	@ResponseBody
 	@PreAuthorize("isAuthenticated()")
 	public Map<String, Object> add(@RequestBody ReplyDto reply, Authentication authentication) {
 		
@@ -47,7 +49,6 @@ public class ReplyController {
 	}
 	
 	@GetMapping("list/{boardId}")
-	@ResponseBody
 	public List<ReplyDto> list(@PathVariable int boardId, Authentication authentication) {
 		
 		String username = "";
@@ -59,7 +60,6 @@ public class ReplyController {
 	}
 	
 	@DeleteMapping("remove/{id}")
-	@ResponseBody
 	@PreAuthorize("@replySecurity.checkWriter(authentication.name, #id)")
 	public Map<String, Object> remove(@PathVariable int id) {
 		Map<String, Object> map = new HashMap<>();
@@ -75,13 +75,11 @@ public class ReplyController {
 	}
 	
 	@GetMapping("get/{id}")
-	@ResponseBody
 	public ReplyDto get(@PathVariable int id) {
 		return service.getById(id);
 	}
 	
 	@PutMapping("modify")
-	@ResponseBody
 	@PreAuthorize("@replySecurity.checkWriter(authentication.name, #reply.id)")
 	public Map<String, Object> modify(@RequestBody ReplyDto reply) {
 		Map<String, Object> map = new HashMap<>();
