@@ -17,6 +17,9 @@
 	<form action="" method="post">
 		id <input type="text" name="username"> <br>
 		pw <input type="text" name="password"> <br>
+		
+		<input type="checkbox" name="remember-me" id=""> remember me <br>
+		
 		<%--
 		<sec:csrfInput/>
 		 --%>

@@ -52,7 +52,8 @@ public class CustomConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.formLogin().loginPage("/member/login").defaultSuccessUrl("/board/list", true);
 		http.logout().logoutUrl("/member/logout").logoutSuccessUrl("/board/list"); // 로그아웃시, list페이지로 이동
-		http.csrf().disable(); // disable csrf 
+		http.rememberMe();
+		http.csrf().disable();
 		
 		return http.build();
 	}
